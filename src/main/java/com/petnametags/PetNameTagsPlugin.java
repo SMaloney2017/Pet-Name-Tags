@@ -7,8 +7,10 @@ import net.runelite.api.Client;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.overlay.OverlayManager;
 
 @Slf4j
 @PluginDescriptor(
@@ -23,20 +25,35 @@ public class PetNameTagsPlugin extends Plugin
 	@Inject
 	private PetNameTagsConfig config;
 
+	@Inject
+	private ConfigManager configManager;
+
+	@Inject
+	private OverlayManager overlayManager;
+
+	@Inject
+	private PetNameTagsOverlay nameTags;
+
 	@Override
 	protected void startUp() throws Exception
 	{
-		/* log.info("Example started!"); */
+		/* overlayManager.add(nameTags); */
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
-		/* log.info("Example stopped!"); */
+		/* overlayManager.remove(nameTags); */
 	}
 
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged gameStateChanged)
+	{
+
+	}
+
+	@Subscribe
+	public void onConfigChanged(ConfigChanged event)
 	{
 
 	}
@@ -46,4 +63,15 @@ public class PetNameTagsPlugin extends Plugin
 	{
 		return configManager.getConfig(PetNameTagsConfig.class);
 	}
+
+	private void addNameTag()
+	{
+
+	}
+
+	private void redrawNameTags()
+	{
+
+	}
+
 }
