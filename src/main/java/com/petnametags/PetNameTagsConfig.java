@@ -22,7 +22,7 @@ public interface PetNameTagsConfig extends Config
     @ConfigItem(
             keyName = "rememberTagColors",
             name = "Remember color per name-tag",
-            description = "Color name-tags using the color from time of creation"
+            description = "Render name-tags using the color at time of creation"
     )
     default boolean rememberTagColors()
     {
