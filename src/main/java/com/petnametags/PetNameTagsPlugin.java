@@ -14,7 +14,8 @@ import net.runelite.client.plugins.PluginDescriptor;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Name Tags"
+	name = "Name Tags",
+	description = "Adds the ability to give your pets names."
 )
 public class PetNameTagsPlugin extends Plugin
 {
