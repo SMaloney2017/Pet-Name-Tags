@@ -67,7 +67,7 @@ public class PetNameTagsOverlay extends Overlay
         final int zOffset;
         zOffset = actor.getLogicalHeight() + ACTOR_OVERHEAD_TEXT_MARGIN;
 
-        Map<String, PetNameTag> NameTags = service.getNameTags();
+        Map<String, PetNameTag> NameTags = service.entries;
         final String name = NameTags.get(actor.getName()).getLabel();
         final Color color = NameTags.get(actor.getName()).getColor();
 

@@ -17,7 +17,7 @@ public class PetNameTagsService
 
     private static String path;
 
-    private static Map<String, PetNameTag> entries = new HashMap<>();
+    static Map<String, PetNameTag> entries = new HashMap<>();
 
     @Inject
     PetNameTagsService(Client user, String accountName)
