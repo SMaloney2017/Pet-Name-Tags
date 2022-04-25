@@ -77,7 +77,8 @@ public class PetNameTagsPlugin extends Plugin
 	}
 
 	@Subscribe
-	public void onGameStateChanged(final GameStateChanged event) {
+	public void onGameStateChanged(final GameStateChanged event)
+	{
 		if (event.getGameState() == GameState.LOGGED_IN)
 		{
 			if (!String.valueOf(client.getAccountHash()).equals(activeSessionUser))
