@@ -87,7 +87,6 @@ public class PetNameTagsOverlay extends Overlay
             else
             {
                 OverlayUtil.renderTextLocation(graphics, textLocation, name, config.getNameTagColor());
-
             }
         }
         catch(NullPointerException e)
