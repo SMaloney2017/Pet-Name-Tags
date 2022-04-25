@@ -110,8 +110,8 @@ public class PetNameTagsPlugin extends Plugin
 		{
 			if (!String.valueOf(client.getAccountHash()).equals(activeSessionUser))
 			{
-				this.service = new PetNameTagsService(client, String.valueOf(client.getAccountHash()));
 				activeSessionUser = String.valueOf(client.getAccountHash());
+				this.service = new PetNameTagsService(client, activeSessionUser);
 			}
 		}
 	}
