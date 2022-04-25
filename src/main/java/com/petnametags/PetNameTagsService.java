@@ -56,7 +56,12 @@ public class PetNameTagsService
     public void forEachPet(final Consumer<NPC> consumer)
     {
         for (NPC npc : client.getNpcs())
+
         {
+            if(npc.getInteracting() != null && !npc.getInteracting().equals(client.getLocalPlayer()))
+            {
+                continue;
+            }
             if (entries.containsKey(npc.getName()))
             {
                 consumer.accept(npc);
