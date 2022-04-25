@@ -4,11 +4,9 @@ import com.google.inject.Inject;
 import net.runelite.api.Client;
 import net.runelite.api.NPC;
 
-import java.awt.Color;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import static net.runelite.client.RuneLite.RUNELITE_DIR;
@@ -16,64 +14,72 @@ import static net.runelite.client.RuneLite.RUNELITE_DIR;
 public class PetNameTagsService
 {
     private static Client client;
-    private static PetNameTagsConfig config;
-    private final PetNameTagsPlugin plugin;
 
     private static String path;
+
     private static Map<String, PetNameTag> entries = new HashMap<>();
 
     @Inject
-    private PetNameTagsService(Client client, PetNameTagsConfig config, PetNameTagsPlugin plugin)
+    PetNameTagsService(Client user, String accountName)
     {
-        this.config = config;
-        this.client = client;
-        this.plugin = plugin;
-        path = RUNELITE_DIR + "/pet-name-tags/" + client.getAccountHash() + ".txt";
+        client = user;
+        path = RUNELITE_DIR + "/pet-name-tags/" + accountName + ".txt";
+        entries = getNameTags();
     }
 
-    public static void forEachPet(final Consumer<NPC> consumer)
+    public void forEachPet(final Consumer<NPC> consumer)
     {
         for (NPC npc : client.getNpcs())
         {
-            Map<String, PetNameTag> NameTags = getNameTags();
-            if (NameTags.containsKey(npc.getName()))
+            if (entries.containsKey(npc.getName()))
             {
                 consumer.accept(npc);
             }
         }
     }
 
-    public static void addToNameTags(String npcId, PetNameTag newNameTag)
+    public void addToNameTags(String npcId, PetNameTag newNameTag)
     {
         entries.put(npcId, newNameTag);
         rebuildFile(entries);
     }
 
-    public static void rebuildFile(Map<String, PetNameTag> entries)
+    public void rebuildFile(Map<String, PetNameTag> entries)
     {
         File sessionFile = new File(path);
-        if(sessionFileExists())
+        if(!sessionFileExists())
         {
             createNewUserFile();
-        }
-        try (
-            FileOutputStream f = new FileOutputStream(sessionFile);
-            ObjectOutputStream b = new ObjectOutputStream(f);
-        )
-        {
-            b.writeObject(entries);
-        } catch (IOException ignored)
-        {
-            /* Print Stack Trace */
+            try (
+                FileOutputStream f = new FileOutputStream(sessionFile);
+                ObjectOutputStream b = new ObjectOutputStream(f)
+            )
+            {
+                b.writeObject(entries);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        } else {
+            try (
+                FileOutputStream f = new FileOutputStream(sessionFile);
+                ObjectOutputStream b = new ObjectOutputStream(f)
+            )
+            {
+                b.writeObject(entries);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static Map<String, PetNameTag> getNameTags()
+    public Map<String, PetNameTag> getNameTags()
     {
         Map<String, PetNameTag> entries = new HashMap<>();
         File sessionFile = new File(path);
 
-        if (sessionFileExists() || sessionFile.length() == 0 ) {
+        if (!sessionFileExists() || sessionFile.length() == 0 ) {
             return entries;
         }
 
@@ -89,28 +95,28 @@ public class PetNameTagsService
             {
                 /* Exit */
             }
-        } catch (IOException ignored)
+        } catch (IOException e)
         {
-            /* Print Stack Trace */
+            e.printStackTrace();
         }
         return entries;
     }
 
-    static boolean sessionFileExists()
+    boolean sessionFileExists()
     {
-        return !new File(path).exists();
+        return new File(path).exists();
     }
 
-    static void createNewUserFile()
+    void createNewUserFile()
     {
         File file = new File(path);
         try
         {
             file.getParentFile().mkdirs();
             file.createNewFile();
-        } catch (IOException ignored)
+        } catch (IOException e)
         {
-            /* Print Stack Trace */
+            e.printStackTrace();
         }
     }
 }

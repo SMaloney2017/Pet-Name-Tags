@@ -2,7 +2,6 @@ package com.petnametags;
 
 import java.awt.Color;
 import java.io.Serializable;
-import java.util.Objects;
 
 public class PetNameTag implements Serializable
 {
@@ -23,9 +22,5 @@ public class PetNameTag implements Serializable
 
     public String getLabel() {
         return this.label;
-    }
-
-    public boolean matches(String label) {
-        return Objects.equals(this.label, label);
     }
 }

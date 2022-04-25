@@ -34,41 +34,40 @@ import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayPriority;
 import net.runelite.client.ui.overlay.OverlayUtil;
-import net.runelite.client.util.Text;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.Map;
 
-import static com.petnametags.PetNameTagsService.getNameTags;
-
 public class PetNameTagsOverlay extends Overlay
 {
     private static final int ACTOR_OVERHEAD_TEXT_MARGIN = 40;
-
     private final PetNameTagsConfig config;
 
+    PetNameTagsService service;
+
     @Inject
-    private PetNameTagsOverlay(PetNameTagsConfig config, PetNameTagsService petNameTagsService)
+    private PetNameTagsOverlay(PetNameTagsConfig config, PetNameTagsService service)
     {
         this.config = config;
-
+        this.service = service;
         setPosition(OverlayPosition.DYNAMIC);
         setPriority(OverlayPriority.MED);
     }
 
     @Override
-    public Dimension render(Graphics2D graphics) {
-        PetNameTagsService.forEachPet((id) -> renderNameTagOverlay(graphics, id));
+    public Dimension render(Graphics2D graphics)
+    {
+        service.forEachPet((id) -> renderNameTagOverlay(graphics, id));
         return null;
     }
 
-    public void renderNameTagOverlay(Graphics2D graphics, NPC actor) {
+    public void renderNameTagOverlay(Graphics2D graphics, NPC actor)
+    {
         final int zOffset;
         zOffset = actor.getLogicalHeight() + ACTOR_OVERHEAD_TEXT_MARGIN;
 
-        Map<String, PetNameTag> NameTags = getNameTags();
+        Map<String, PetNameTag> NameTags = service.getNameTags();
         final String name = NameTags.get(actor.getName()).getLabel();
         final Color color = NameTags.get(actor.getName()).getColor();
 
@@ -91,7 +90,9 @@ public class PetNameTagsOverlay extends Overlay
 
             }
         }
-        catch(NullPointerException ignored) {}
-
+        catch(NullPointerException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
