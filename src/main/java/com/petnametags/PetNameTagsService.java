@@ -76,27 +76,16 @@ public class PetNameTagsService
         if(!sessionFileExists())
         {
             createNewUserFile();
-            try (
-                FileOutputStream f = new FileOutputStream(sessionFile);
-                ObjectOutputStream b = new ObjectOutputStream(f)
-            )
-            {
-                b.writeObject(entries);
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        } else {
-            try (
-                FileOutputStream f = new FileOutputStream(sessionFile);
-                ObjectOutputStream b = new ObjectOutputStream(f)
-            )
-            {
-                b.writeObject(entries);
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+        }
+        try (
+            FileOutputStream f = new FileOutputStream(sessionFile);
+            ObjectOutputStream b = new ObjectOutputStream(f)
+        )
+        {
+            b.writeObject(entries);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 
