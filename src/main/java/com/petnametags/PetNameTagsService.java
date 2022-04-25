@@ -20,10 +20,10 @@ public class PetNameTagsService
     static Map<String, PetNameTag> entries = new HashMap<>();
 
     @Inject
-    PetNameTagsService(Client user, String accountName)
+    PetNameTagsService(Client user, String accountHash)
     {
         client = user;
-        path = RUNELITE_DIR + "/pet-name-tags/" + accountName + ".txt";
+        path = RUNELITE_DIR + "/pet-name-tags/" + accountHash + ".txt";
         entries = getNameTags();
     }
 
