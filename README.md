@@ -4,4 +4,4 @@
 ![image](https://user-images.githubusercontent.com/60162255/165010700-2b723b4d-345e-4822-8428-037f4fb953e3.png)
 
 ### Bugs to fix/ Concerns
-> - 📓 Wandering pets in other player's POH are tagged.
+- 📓 Wandering pets in other player's POH are tagged.
