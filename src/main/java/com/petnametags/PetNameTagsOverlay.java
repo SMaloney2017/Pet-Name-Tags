@@ -41,57 +41,57 @@ import java.util.Map;
 
 public class PetNameTagsOverlay extends Overlay
 {
-    private static final int ACTOR_OVERHEAD_TEXT_MARGIN = 40;
-    private final PetNameTagsConfig config;
+	private static final int ACTOR_OVERHEAD_TEXT_MARGIN = 40;
+	private final PetNameTagsConfig config;
 
-    PetNameTagsService service;
+	PetNameTagsService service;
 
-    @Inject
-    private PetNameTagsOverlay(PetNameTagsConfig config, PetNameTagsService service)
-    {
-        this.config = config;
-        this.service = service;
-        setPosition(OverlayPosition.DYNAMIC);
-        setPriority(OverlayPriority.MED);
-    }
+	@Inject
+	private PetNameTagsOverlay(PetNameTagsConfig config, PetNameTagsService service)
+	{
+		this.config = config;
+		this.service = service;
+		setPosition(OverlayPosition.DYNAMIC);
+		setPriority(OverlayPriority.MED);
+	}
 
-    @Override
-    public Dimension render(Graphics2D graphics)
-    {
-        service.forEachPet((id) -> renderNameTagOverlay(graphics, id));
-        return null;
-    }
+	@Override
+	public Dimension render(Graphics2D graphics)
+	{
+		service.forEachPet((id) -> renderNameTagOverlay(graphics, id));
+		return null;
+	}
 
-    public void renderNameTagOverlay(Graphics2D graphics, NPC actor)
-    {
-        final int zOffset;
-        zOffset = actor.getLogicalHeight() + ACTOR_OVERHEAD_TEXT_MARGIN;
+	public void renderNameTagOverlay(Graphics2D graphics, NPC actor)
+	{
+		final int zOffset;
+		zOffset = actor.getLogicalHeight() + ACTOR_OVERHEAD_TEXT_MARGIN;
 
-        Map<String, PetNameTag> NameTags = service.entries;
-        final String name = NameTags.get(actor.getName()).getLabel();
-        final Color color = NameTags.get(actor.getName()).getColor();
+		Map<String, PetNameTag> NameTags = service.entries;
+		final String name = NameTags.get(actor.getName()).getLabel();
+		final Color color = NameTags.get(actor.getName()).getColor();
 
-        Point textLocation = actor.getCanvasTextLocation(graphics, name, zOffset);
+		Point textLocation = actor.getCanvasTextLocation(graphics, name, zOffset);
 
-        if (textLocation == null)
-        {
-            return;
-        }
+		if (textLocation == null)
+		{
+			return;
+		}
 
-        try
-        {
-            if(config.rememberTagColors())
-            {
-                OverlayUtil.renderTextLocation(graphics, textLocation, name, color);
-            }
-            else
-            {
-                OverlayUtil.renderTextLocation(graphics, textLocation, name, config.getNameTagColor());
-            }
-        }
-        catch(NullPointerException e)
-        {
-            e.printStackTrace();
-        }
-    }
+		try
+		{
+			if (config.rememberTagColors())
+			{
+				OverlayUtil.renderTextLocation(graphics, textLocation, name, color);
+			}
+			else
+			{
+				OverlayUtil.renderTextLocation(graphics, textLocation, name, config.getNameTagColor());
+			}
+		}
+		catch (NullPointerException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
